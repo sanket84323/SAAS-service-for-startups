@@ -1,0 +1,44 @@
+spring:
+  application:
+    name: backend
+
+  # Database configuration using dotenv loaded environment variables
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/${POSTGRES_DB:startupos}
+    username: ${POSTGRES_USER:postgres}
+    password: ${POSTGRES_PASSWORD:postgres}
+    driver-class-name: org.postgresql.Driver
+
+  # JPA & Hibernate configs
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+
+  # Spring AI Google GenAI Configuration
+  ai:
+    google:
+      genai:
+        api-key: ${GEMINI_API_KEY}
+        chat:
+          options:
+            model: gemini-2.5-flash
+
+# Custom configurations loaded from environment
+gemini:
+  api:
+    key: ${GEMINI_API_KEY:}
+    url: https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent
+
+jwt:
+  secret: ${JWT_SECRET:startupos-super-secret-jwt-encryption-key-for-token-generation-2026}
+  expiration: 86400000 # 24 hours in milliseconds
+
+server:
+  port: 8080
+  servlet:
+    context-path: /api
